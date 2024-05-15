@@ -8,20 +8,21 @@
 	<script defer src="script.js"></script>
 	<link rel="stylesheet" href="style.css">	
 </head>
-<body >
+<body>
 <input style="display:none" class="form" type="checkbox" id="checkbox_Reconection" checked="true">
 <label style="display:none" class="form"  >Reconnection </label>
 
-<button class="form"  id="button_server">Connect Server</button> 
-<button class="form"  id="button_start" >Start Streaming</button>
-<button class="form"  id="button_stop" >Stop Streaming</button>	
-<button class="form"  id="button_face_start" >Start faceAPi</button>	
-<button class="form"  id="button_face_stop" >Stop faceAPi</button>	
+<button style="display:none" class="form"  id="button_server">Connect Server</button> 
+<button style="display:none" class="form"  id="button_start" >Start Streaming</button>
+<button style="display:none" class="form"  id="button_stop" >Stop Streaming</button>	
+<button style="display:none" class="form"  id="button_face_start" >Start faceAPi</button>
+<button style="display:none" class="form"  id="button_avatar" >Catch avatar</button>
 <div class="video">
 	<p style="display:none" id="output_message"></p>
 	
 	<video  id="output_video" playsinline muted autoplay></video>
 	<video id="videoElement" preload="none"  ></video>
+	<canvas id="canvas"></canvas>
 </div>
 
 

@@ -12,8 +12,10 @@ var output_console=document.getElementById('output_console'),
 	output_message=document.getElementById('output_message'),
 	output_video=document.getElementById('output_video'),
 	button_start=document.getElementById('button_start');
-	button_face_start=document.getElementById('button_face_start');
-	button_face_stop=document.getElementById('button_face_stop');
+	button_face_start=document.getElementById('button_face_start'),
+	button_avatar=document.getElementById('button_avatar'),
+	canvas=document.getElementById('canvas'),
+	ctx=canvas.getContext('2d');
 
 	
 var height = 240,
@@ -31,13 +33,26 @@ var height = 240,
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
 	const userId = urlParams.get('userid');
-	const examId = urlParams.get('examid')
+	const examId = urlParams.get('examid');
+	const statusMode = urlParams.get('statusMode');
 
+	if(statusMode === "shareCamera") {
+		buttonFaceStart();
+		connect_server();
+		requestMedia();
+	}
+
+	// if(statusMode === "changeAvatar") {
+	// 	avatarRecognize();
+	// 	showMedia();
+	// 	button_avatar.style.display = "block";
+	// }
 
 	if(userId) {
 		const newUrl = `rtmp://34.17.2.235/live/${userId}?secret=4f25f5d270444eaca73954df438510ca`;
 		option_url = newUrl;
 	}
+
 
 	var url=option_url;
 	console.log(url)
@@ -48,6 +63,7 @@ button_start.onclick=requestMedia;
 button_stop.onclick=stopStream;
 button_server.onclick=connect_server;
 button_face_start.onclick=buttonFaceStart;
+// button_avatar.onclick=catchAvatar;
 
 var oo=document.getElementById("checkbox_Reconection");
 	//just start the server
@@ -59,6 +75,7 @@ var oo=document.getElementById("checkbox_Reconection");
  	var t;
 	button_start.disabled=true;
 	button_stop.disabled=true;
+
 	function video_show(stream){
 		if ("srcObject" in output_video) {
 			output_video.muted = true;
@@ -369,4 +386,62 @@ function labelNotMatched(detectedLabel){
 function cheatDetected() {
 	const currentTimeStamp = new Date().getTime()
 	cheatDetectedApi(backend_url, userId, examId, currentTimeStamp)
-	}
+}
+
+// function showMedia() {
+// 	var constraints = { audio: {sampleRate: audiobitrate, 
+// 			echoCancellation: true},
+// 			video:{
+// 			width: { min: 100, ideal: width, max: 1920 },
+// 			height: { min: 100, ideal: height, max: 1080 },
+// 			frameRate: {ideal: framerate}
+// 		}
+// 	};
+// 	console.log(constraints);
+
+// 	navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
+// 		avatarCamera.srcObject = mediaStream;
+// 		avatarCamera.onloadedmetadata = function(e) {
+// 			avatarCamera.play();
+// 		};
+// 		const track = mediaStream.getVideoTracks()[0];
+// 		imageCapture = new ImageCapture(track);
+
+// 		return imageCapture.getPhotoSettings();
+// 	})
+// 	.then(photoSettings => {
+// 		canvas.width = photoSettings.imageWidth;
+// 		canvas.height = photoSettings.imageHeight;
+// 	})
+// 	.catch(function(err) {
+// 		console.log(err.name + ": " + err.message);
+// 	}); // always check for errors at the end.
+	
+// }
+
+// var confidence = 0;
+// function changeConfidence(){
+// 	avatarCamera.addEventListener('play', () => {
+// 		setInterval(async () => {
+// 			const faceDescriptions = await faceapi.detectSingleFace(avatarCamera)
+// 			confidence = faceDescriptions.score
+// 			console.log(confidence)
+// 		}, 5000)
+// 	})
+// }
+
+// function avatarRecognize(){
+// 	startFaceApi().then(() => {
+// 		changeConfidence()
+// 	})
+// }
+
+// function catchAvatar(){
+// 	ctx.drawImage(avatarCamera, 0, 0);
+//     var base64Img = canvas.toDataURL();
+// 	console.log(base64Img)
+//     var oA = document.createElement('a');
+//     oA.href = base64Img;
+//     oA.download = '截图.png'; // 下载的文件名可以此处修改
+//     oA.click();
+// }
