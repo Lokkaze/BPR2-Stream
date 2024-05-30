@@ -33,7 +33,7 @@ var height = 240,
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
 	const userId = urlParams.get('userid');
-	const examId = urlParams.get('examid');
+	const examId = urlParams.get('examId');
 	const statusMode = urlParams.get('statusMode');
 
 	if(statusMode === "shareCamera") {
@@ -355,11 +355,11 @@ function RecognizeFace(){
 		
 			console.log(results)
 			
-			console.log(labelNotMatched(results[0].label))
-
-			if(labelNotMatched(results[0].label)){
-				console.log("Cheat detected")
-				cheatDetected()
+			for(const item of results) {
+				if(labelNotMatched(item.label)){
+					console.log("Cheat detected")
+					cheatDetected()
+				}
 			}
 		}, 5000)
 	})
